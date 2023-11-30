@@ -11,11 +11,28 @@ const Cursor = () => {
       }
     };
 
-    document.addEventListener("pointermove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("pointermove", handleMouseMove);
+    const handleDeviceMove = (event: DeviceOrientationEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.top = `${(((event.beta ?? 1) + 90) * window.innerHeight) / 360}px`;
+        cursorRef.current.style.left = `${(((event.alpha ?? 1) - 0) * window.innerWidth) / 360}px`;
+      }
     };
+
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints;
+
+    if (!isTouchDevice) {
+      document.addEventListener("pointermove", handleMouseMove);
+
+      return () => {
+        document.removeEventListener("pointermove", handleMouseMove);
+      };
+    } else {
+      window.addEventListener("deviceorientation", handleDeviceMove);
+
+      return () => {
+        window.removeEventListener("deviceorientation", handleDeviceMove);
+      };
+    }
   }, []);
 
   return (
