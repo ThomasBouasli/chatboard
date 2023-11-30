@@ -12,7 +12,9 @@ const HomePage = () => {
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center gap-4">
       <Cursor />
-      <h1 className="text-gradient select-none text-9xl font-extrabold uppercase">CHATBOARD™</h1>
+      <h1 className="text-gradient select-none text-5xl font-extrabold uppercase sm:text-7xl md:text-8xl lg:text-9xl">
+        CHATBOARD™
+      </h1>
       <Button onClick={handleJoin}>Join</Button>
     </main>
   );
