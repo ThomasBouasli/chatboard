@@ -19,11 +19,10 @@ const Cursor = () => {
   }, []);
 
   return (
-    <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
+    <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden">
       <div
         ref={cursorRef}
-        // blend mode
-        className="gradient absolute h-40 w-40 translate-x-[-50%] translate-y-[-50%] rounded-full mix-blend-difference"
+        className="gradient pointer-events-none absolute h-40 w-40 translate-x-[-50%] translate-y-[-50%] rounded-full mix-blend-difference"
       />
     </div>
   );
