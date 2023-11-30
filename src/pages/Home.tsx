@@ -10,7 +10,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center gap-4">
+    <main className="flex h-[100dvh] w-full flex-col items-center justify-center gap-4">
       <Cursor />
       <h1 className="text-gradient select-none text-5xl font-extrabold uppercase sm:text-7xl md:text-8xl lg:text-9xl">
         CHATBOARD™
