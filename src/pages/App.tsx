@@ -9,7 +9,7 @@ const AppPage = () => {
   };
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center gap-4">
-      <h1 className="text-gradient text-9xl font-extrabold uppercase">App</h1>
+      <h1 className="text-gradient select-none text-9xl font-extrabold uppercase">App</h1>
       <Button onClick={handleJoin}>Leave</Button>
     </main>
   );
