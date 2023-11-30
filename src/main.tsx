@@ -3,4 +3,10 @@ import ReactDOM from "react-dom/client";
 
 import "@/styles/index.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<React.StrictMode></React.StrictMode>);
+import HomePage from "@/pages/Home";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <HomePage />
+  </React.StrictMode>,
+);

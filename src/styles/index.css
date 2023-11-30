@@ -1,3 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --text: #020303;
+    --background: #ddfcfd;
+    --primary: #cbaaca;
+    --secondary: #d3e4e4;
+    --accent: #909159;
+  }
+  .dark {
+    --text: #fcfdfd;
+    --background: #022122;
+    --primary: #553454;
+    --secondary: #1b2c2c;
+    --accent: #a4a66e;
+  }
+
+  body {
+    font-family: "Inter", sans-serif;
+    @apply bg-background text-text dark;
+  }
+}
+
+@layer utilities {
+  .gradient {
+    @apply from-primary to-accent bg-gradient-to-br;
+  }
+
+  .text-gradient {
+    background-size: 400%;
+    animation: gradient_animation 5s ease infinite;
+    @apply gradient bg-clip-text leading-snug text-transparent;
+  }
+}
+
+@keyframes gradient_animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
