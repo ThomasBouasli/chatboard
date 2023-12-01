@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Cursor = () => {
+  const [start, setStart] = useState<number>();
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -13,8 +14,15 @@ const Cursor = () => {
 
     const handleDeviceMove = (event: DeviceOrientationEvent) => {
       if (cursorRef.current) {
-        cursorRef.current.style.top = `${(((event.beta ?? 1) + 90) * window.innerHeight) / 360}px`;
-        cursorRef.current.style.left = `${(((event.alpha ?? 1) - 0) * window.innerWidth) / 360}px`;
+        if (!start) {
+          setStart(event.alpha!);
+        } else {
+          const diff = event.alpha! - start;
+
+          console.log({ start, alpha: event.alpha, diff });
+
+          cursorRef.current.style.left = `${diff * (window.innerWidth / 90)}px`;
+        }
       }
     };
 
@@ -33,13 +41,13 @@ const Cursor = () => {
         window.removeEventListener("deviceorientation", handleDeviceMove);
       };
     }
-  }, []);
+  }, [cursorRef, start]);
 
   return (
     <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden">
       <div
         ref={cursorRef}
-        className="gradient pointer-events-none absolute h-40 w-40 translate-x-[-50%] translate-y-[-50%] rounded-full mix-blend-difference"
+        className="gradient pointer-events-none absolute top-1/2 h-40 w-40 translate-x-[-50%] translate-y-[-50%] rounded-full mix-blend-difference"
       />
     </div>
   );
