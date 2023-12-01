@@ -19,8 +19,6 @@ const Cursor = () => {
         } else {
           const diff = event.gamma! - start;
 
-          console.log({ start, gamma: event.gamma, diff });
-
           cursorRef.current.style.left = `${diff * (window.innerWidth / 90)}px`;
         }
       }
