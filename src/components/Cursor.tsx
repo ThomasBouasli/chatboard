@@ -15,11 +15,11 @@ const Cursor = () => {
     const handleDeviceMove = (event: DeviceOrientationEvent) => {
       if (cursorRef.current) {
         if (!start) {
-          setStart(event.alpha!);
+          setStart(event.beta!);
         } else {
-          const diff = event.alpha! - start;
+          const diff = event.beta! - start;
 
-          console.log({ start, alpha: event.alpha, diff });
+          console.log({ start, beta: event.beta, diff });
 
           cursorRef.current.style.left = `${diff * (window.innerWidth / 90)}px`;
         }
