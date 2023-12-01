@@ -22,13 +22,13 @@
 
   body {
     font-family: "Inter", sans-serif;
-    @apply bg-background text-text dark;
+    @apply dark bg-background text-text;
   }
 }
 
 @layer utilities {
   .gradient {
-    @apply from-primary to-accent bg-gradient-to-br;
+    @apply bg-gradient-to-br from-primary to-accent;
   }
 
   .text-gradient {
@@ -48,4 +48,9 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+.firebase-emulator-warning {
+  display: none !important;
+  visibility: hidden !important;
 }
