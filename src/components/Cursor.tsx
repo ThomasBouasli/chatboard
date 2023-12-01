@@ -1,3 +1,5 @@
+import Dot from "./Dot";
+
 import { useEffect, useRef, useState } from "react";
 
 const Cursor = () => {
@@ -43,10 +45,7 @@ const Cursor = () => {
 
   return (
     <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden">
-      <div
-        ref={cursorRef}
-        className="gradient pointer-events-none absolute top-1/2 h-40 w-40 translate-x-[-50%] translate-y-[-50%] rounded-full mix-blend-difference"
-      />
+      <Dot ref={cursorRef} className="absolute top-1/2 translate-x-[-50%] translate-y-[-50%] mix-blend-difference" />
     </div>
   );
 };
