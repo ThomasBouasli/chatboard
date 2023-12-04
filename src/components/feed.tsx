@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { collection, doc, getDoc, onSnapshot, Timestamp } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, orderBy, query, Timestamp } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
 import { useEffect, useState } from "react";
@@ -31,7 +31,9 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
   };
 
   const fetchData = async () => {
-    onSnapshot(collection(db, "messages"), async (snapshot) => {
+    const queryRef = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+
+    onSnapshot(queryRef, async (snapshot) => {
       const promises = snapshot.docs.map(async (docRef) => {
         const userRef = await getDoc(doc(db, "users", docRef.data().userId));
 
@@ -72,10 +74,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
     <main {...props} className={twMerge("mb-5", className)}>
       <div className="flex flex-col">
         {data.map((message) => (
-          <div
-            key={message.id}
-            className="flex h-fit w-full items-center justify-center border-b border-secondary px-4 py-2"
-          >
+          <div key={message.id} className="flex h-fit w-full items-center justify-center border-secondary px-4 py-2">
             <Card className="w-full max-w-sm overflow-hidden">
               <CardHeader className="border-b border-border p-3">
                 <div className="flex items-center justify-between">

@@ -75,8 +75,8 @@ export class Pen {
       }
     }
 
-    ctx.fillStyle = "black";
-    ctx.strokeStyle = "black";
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "white";
     ctx.fill();
     ctx.stroke();
     ctx.closePath();

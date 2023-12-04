@@ -1,9 +1,11 @@
+import CanvasInput from "./canvas-input";
+
 import { animated, useSpring } from "@react-spring/web";
 import { GripHorizontal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const Drawer = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
 
@@ -125,7 +127,9 @@ const Drawer = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivE
       >
         <GripHorizontal className="text-text" />
       </div>
-      <div className="border-x-8 border-b-8 border-foreground/30 p-4">{children}</div>
+      <div className="border-x-8 border-b-8 border-foreground/30 p-4">
+        <CanvasInput onSubmit={() => setOpen(false)} />
+      </div>
     </animated.section>
   );
 };

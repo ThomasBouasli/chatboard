@@ -6,7 +6,7 @@ import { Pen } from "@/components/tools/pen";
 import { Button } from "@/components/ui/button";
 import { auth, db } from "@/lib/firebase";
 
-const CanvasInput = () => {
+const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tempCanvas = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,6 +22,8 @@ const CanvasInput = () => {
       data: JSON.stringify(data?.map((d) => d.toJSON())),
       createdAt: Timestamp.now(),
     });
+
+    onSubmit();
   };
 
   const undo = useCallback((e: KeyboardEvent) => {
