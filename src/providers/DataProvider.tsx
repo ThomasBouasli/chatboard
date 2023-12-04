@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { Pen } from "@/components/tools/Pen";
+import { Pen } from "@/components/tools/pen";
 
 export interface DataContextProps {
   data: Pen[];
