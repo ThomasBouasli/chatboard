@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Canvas from "@/components/canvas";
 import { Pen } from "@/components/tools/pen";
@@ -6,6 +6,9 @@ import { Pen } from "@/components/tools/pen";
 type CanvasDisplayProps = React.CanvasHTMLAttributes<HTMLCanvasElement>;
 
 const CanvasDisplay = ({ data, ...props }: CanvasDisplayProps & { data: Pen[] }) => {
+  const [isInView, setIsInView] = useState(false);
+  const [seed, setSeed] = useState(1);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tempCanvas = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,9 +61,33 @@ const CanvasDisplay = ({ data, ...props }: CanvasDisplayProps & { data: Pen[] })
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const d of data) {
-      d.render(ctx);
+      d.render(ctx, seed);
     }
-  }, [data, canvasRef]);
+  }, [data, canvasRef, seed]);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const interval = setInterval(() => {
+      setSeed((s) => s + 1);
+    }, 200);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isInView]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      setIsInView(entries[0].isIntersecting);
+    });
+
+    observer.observe(containerRef.current!);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div ref={containerRef}>

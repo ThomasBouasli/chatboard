@@ -58,10 +58,20 @@ const Drawer = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivE
 
       setDragging(false);
 
-      if (py.get() < maxY / 2) {
-        setOpen(true);
+      if (py.get() > maxY / 2) {
+        setOpen((prev) => {
+          if (prev) {
+            api.start({ y: maxY });
+          }
+          return true;
+        });
       } else {
-        setOpen(false);
+        setOpen((prev) => {
+          if (!prev) {
+            api.start({ y: 0 });
+          }
+          return false;
+        });
       }
     };
 
@@ -98,16 +108,24 @@ const Drawer = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivE
     <animated.section
       {...props}
       id="drawer"
-      className={twMerge("fixed bottom-5 left-0 w-full translate-y-full bg-background", className)}
+      className={twMerge("fixed bottom-5 left-1/2  w-full max-w-sm translate-y-full bg-background", className)}
       ref={drawerRef}
       style={{
         y: py.to((v) => `calc(100% - ${v}px)`),
+        x: "-50%",
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        setOpen((prev) => !prev);
       }}
     >
-      <div className="flex h-5 w-full cursor-move items-center justify-center bg-secondary py-1" ref={handleRef}>
+      <div
+        className="flex h-5 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/30 py-1"
+        ref={handleRef}
+      >
         <GripHorizontal className="text-text" />
       </div>
-      <div className="p-4">{children}</div>
+      <div className="border-x-8 border-b-8 border-foreground/30 p-4">{children}</div>
     </animated.section>
   );
 };

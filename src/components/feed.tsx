@@ -1,4 +1,6 @@
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { collection, doc, getDoc, onSnapshot, Timestamp } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
 import { useEffect, useState } from "react";
@@ -9,6 +11,8 @@ import { Pen, PenData } from "@/components/tools/pen";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { db, functions, messaging } from "@/lib/firebase";
 
+dayjs.extend(relativeTime);
+
 const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   const [data, setData] = useState<
     {
@@ -16,6 +20,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
       data: PenData[];
       userName: string;
       userImage: string;
+      timestamp: Timestamp;
     }[]
   >([]);
 
@@ -37,6 +42,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
           data: JSON.parse(docRef.data().data),
           userName: user?.username ?? "Unknown",
           userImage: user?.image ?? "https://via.placeholder.com/150",
+          timestamp: docRef.data().createdAt,
         };
       });
 
@@ -63,21 +69,24 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
   }, []);
 
   return (
-    <main {...props} className={twMerge("mb-5 flex w-full", className)}>
+    <main {...props} className={twMerge("mb-5", className)}>
       <div className="flex flex-col">
         {data.map((message) => (
           <div
             key={message.id}
             className="flex h-fit w-full items-center justify-center border-b border-secondary px-4 py-2"
           >
-            <Card>
-              <CardHeader className="border-b border-border">
-                <div className="flex items-center gap-4">
-                  <img src={message.userImage} className="aspect-square h-10 rounded-full" />
-                  <span>{message.userName}</span>
+            <Card className="w-full max-w-sm overflow-hidden">
+              <CardHeader className="border-b border-border p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <img src={message.userImage} className="aspect-square h-10 rounded-full" />
+                    <span>{message.userName}</span>
+                  </div>
+                  <span>{dayjs(message.timestamp.toDate()).fromNow()}</span>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <CanvasDisplay key={message.id} data={message.data.map((d) => new Pen(d))} />
               </CardContent>
             </Card>

@@ -3,7 +3,6 @@ import { connectAuthEmulator, getAuth, GoogleAuthProvider } from "firebase/auth"
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import { getMessaging } from "firebase/messaging";
-import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuZmYBSeSFOmgbFf71x9OxnFPDtir1wnA",
@@ -19,13 +18,11 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const functions = getFunctions(app, "southamerica-east1");
 export const messaging = getMessaging(app);
-export const storage = getStorage(app);
 
 if (process.env.NODE_ENV === "development") {
   connectAuthEmulator(auth, "http://localhost:9099");
   connectFirestoreEmulator(db, "localhost", 8080);
   connectFunctionsEmulator(functions, "localhost", 5001);
-  connectStorageEmulator(storage, "localhost", 9199);
 }
 
 export const google = new GoogleAuthProvider();

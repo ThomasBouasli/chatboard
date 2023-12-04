@@ -1,4 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Canvas from "@/components/canvas";
@@ -20,6 +20,7 @@ const CanvasInput = () => {
     await addDoc(collection(db, "messages"), {
       userId: auth.currentUser!.uid,
       data: JSON.stringify(data?.map((d) => d.toJSON())),
+      createdAt: Timestamp.now(),
     });
   };
 
