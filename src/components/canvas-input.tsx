@@ -23,6 +23,7 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
       createdAt: Timestamp.now(),
     });
 
+    setData(null);
     onSubmit();
   };
 
