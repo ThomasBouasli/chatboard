@@ -9,7 +9,7 @@ const AppHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>
     <header
       {...props}
       className={twMerge(
-        "sticky left-0 top-0 h-16 w-full border-b border-secondary bg-background px-4 py-2",
+        "sticky left-0 top-0 flex h-16 w-full items-center border-b border-secondary bg-background px-4 py-2",
         className,
       )}
     >

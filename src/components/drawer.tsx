@@ -118,7 +118,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }}
     >
       <div
-        className="flex h-5 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/30 py-1"
+        className="flex h-5 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/10 py-1"
         ref={handleRef}
         onClick={(e) => {
           e.stopPropagation();
@@ -127,7 +127,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       >
         <GripHorizontal className="text-text" />
       </div>
-      <div className="border-x-8 border-b-8 border-foreground/30 p-4">
+      <div className="border-x-8 border-b-8 border-foreground/10 p-4">
         <CanvasInput onSubmit={() => setOpen(false)} />
       </div>
     </animated.section>
