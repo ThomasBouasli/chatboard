@@ -28,6 +28,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     const maxY = drawer.clientHeight - handle.clientHeight;
 
     const handleDrag = (e: PointerEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       if (!dragging) return;
 
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
@@ -42,6 +44,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleTouchDrag = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       if (!dragging) return;
 
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
@@ -55,7 +59,9 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: PointerEvent | TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       if (!dragging) return;
 
       setDragging(false);
