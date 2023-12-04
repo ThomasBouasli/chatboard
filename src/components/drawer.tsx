@@ -11,7 +11,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const [open, setOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const [moving, setMoving] = useState(false);
 
   const [{ y: py }, api] = useSpring(() => ({
     y: 0,
@@ -34,8 +33,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
       if (!dragging) return;
 
-      setMoving(true);
-
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
       if (y < 0) {
@@ -53,8 +50,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
       if (!dragging) return;
 
-      setMoving(true);
-
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
       if (y < 0) {
@@ -67,13 +62,12 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleMouseUp = () => {
-      if (dragging && !moving) {
+      if (!dragging) {
         setOpen((prev) => !prev);
         return;
       }
 
       setDragging(false);
-      setMoving(false);
 
       if (py.get() > maxY / 2) {
         setOpen((prev) => {
@@ -94,7 +88,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
     const handleMouseDown = () => {
       setDragging(true);
-      setMoving(false);
     };
 
     handle.addEventListener("pointerdown", handleMouseDown);
@@ -112,7 +105,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       window.removeEventListener("pointerup", handleMouseUp);
       window.removeEventListener("touchend", handleMouseUp);
     };
-  }, [dragging, py, api, moving]);
+  }, [dragging, py, api]);
 
   useEffect(() => {
     if (open) {
