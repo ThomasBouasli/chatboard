@@ -67,12 +67,13 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleMouseUp = () => {
-      if (!dragging || !moving) {
+      if (dragging && !moving) {
         setOpen((prev) => !prev);
         return;
       }
 
       setDragging(false);
+      setMoving(false);
 
       if (py.get() > maxY / 2) {
         setOpen((prev) => {
