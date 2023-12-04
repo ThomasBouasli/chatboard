@@ -2,7 +2,7 @@ import CanvasInput from "./canvas-input";
 
 import { animated, useSpring } from "@react-spring/web";
 import { GripHorizontal } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
@@ -21,28 +21,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     },
   }));
 
-  const onClick = useCallback((e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setOpen(false);
-  }, []);
-
-  const onTouch = useCallback((e: TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setOpen(false);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("pointerdown", onClick);
-    window.addEventListener("touchstart", onTouch);
-
-    return () => {
-      window.removeEventListener("pointerdown", onClick);
-      window.removeEventListener("touchstart", onTouch);
-    };
-  }, [onClick, onTouch]);
-
   useEffect(() => {
     const handle = handleRef.current!;
     const drawer = drawerRef.current!;
@@ -50,8 +28,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     const maxY = drawer.clientHeight - handle.clientHeight;
 
     const handleDrag = (e: PointerEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
       if (!dragging) return;
 
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
@@ -66,8 +42,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleTouchDrag = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
       if (!dragging) return;
 
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
@@ -81,10 +55,11 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
     };
 
-    const handleMouseUp = (e: PointerEvent | TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!dragging) return;
+    const handleMouseUp = () => {
+      if (!dragging) {
+        setOpen((prev) => !prev);
+        return;
+      }
 
       setDragging(false);
 
@@ -105,9 +80,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
     };
 
-    const handleMouseDown = (e: PointerEvent | TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+    const handleMouseDown = () => {
       setDragging(true);
     };
 
