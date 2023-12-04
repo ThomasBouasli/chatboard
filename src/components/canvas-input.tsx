@@ -1,4 +1,5 @@
 import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { Trash2, Undo } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Canvas from "@/components/canvas";
@@ -13,6 +14,10 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
 
   const [data, setData] = useState<null | Pen[]>(null);
 
+  const clear = () => {
+    setData([]);
+  };
+
   const saveCanvas = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -23,18 +28,25 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
       createdAt: Timestamp.now(),
     });
 
-    setData(null);
+    clear();
     onSubmit();
   };
 
-  const undo = useCallback((e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === "z") {
-      setData((prev) => {
-        if (!prev) return prev;
-        return prev.slice(0, prev.length - 1);
-      });
-    }
+  const undo = useCallback(() => {
+    setData((prev) => {
+      if (!prev) return prev;
+      return prev.slice(0, prev.length - 1);
+    });
   }, []);
+
+  const undoHandler = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "z") {
+        undo();
+      }
+    },
+    [undo],
+  );
 
   const handleMouseDown = useCallback(
     (e: PointerEvent) => {
@@ -120,15 +132,15 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
 
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
-      undo(e);
+      undoHandler(e);
     });
 
     return () => {
       document.removeEventListener("keydown", (e) => {
-        undo(e);
+        undoHandler(e);
       });
     };
-  }, [undo]);
+  }, [undoHandler]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -170,9 +182,22 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4" ref={containerRef}>
-      <Canvas className="cursor-crosshair touch-none" ref={canvasRef} />
-      <Canvas style={{ display: "none" }} ref={tempCanvas} />
-      <Button onClick={saveCanvas}>Save</Button>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-foreground/50">draw something</span>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={clear}>
+            <Trash2 />
+          </Button>
+          <Button variant="outline" onClick={undo}>
+            <Undo />
+          </Button>
+        </div>
+      </div>
+      <Canvas className="cursor-crosshair touch-none border border-secondary" ref={canvasRef} />
+      <Canvas className="border border-secondary" style={{ display: "none" }} ref={tempCanvas} />
+      <Button className="font-bold" onClick={saveCanvas}>
+        Save
+      </Button>
     </div>
   );
 };
