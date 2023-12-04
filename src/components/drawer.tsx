@@ -2,7 +2,7 @@ import CanvasInput from "./canvas-input";
 
 import { animated, useSpring } from "@react-spring/web";
 import { GripHorizontal } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
@@ -20,6 +20,28 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       bounce: 0.1,
     },
   }));
+
+  const onClick = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(false);
+  }, []);
+
+  const onTouch = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(false);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("pointerdown", onClick);
+    window.addEventListener("touchstart", onTouch);
+
+    return () => {
+      window.removeEventListener("pointerdown", onClick);
+      window.removeEventListener("touchstart", onTouch);
+    };
+  }, [onClick, onTouch]);
 
   useEffect(() => {
     const handle = handleRef.current!;
@@ -125,15 +147,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
         x: "-50%",
       }}
     >
-      <div
-        className="flex h-10 w-full cursor-move items-center justify-center bg-foreground/10 py-1"
-        ref={handleRef}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setOpen((prev) => !prev);
-        }}
-      >
+      <div className="flex h-10 w-full cursor-move items-center justify-center bg-foreground/10 py-1" ref={handleRef}>
         <GripHorizontal className="text-text" />
       </div>
       <div className="border-x-8 border-b-8 border-foreground/10 p-4">
