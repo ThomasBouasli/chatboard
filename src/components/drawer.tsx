@@ -11,6 +11,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const [open, setOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [clicking, setClicking] = useState(false);
 
   const [{ y: py }, api] = useSpring(() => ({
     y: 0,
@@ -28,12 +29,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     const maxY = drawer.clientHeight - handle.clientHeight;
 
     const handleDrag = (e: PointerEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (!dragging) return;
-
-      setDragging(false);
+      if (!clicking) return;
+      setDragging(true);
 
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
@@ -47,12 +44,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleTouchDrag = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (!dragging) return;
-
-      setDragging(false);
+      if (!clicking) return;
+      setDragging(true);
 
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
@@ -67,11 +60,13 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
     const handleMouseUp = () => {
       if (dragging) {
+        console.log("but click");
         setOpen((prev) => !prev);
         return;
       }
 
       setDragging(false);
+      setClicking(false);
 
       if (py.get() > maxY / 2) {
         setOpen((prev) => {
@@ -91,7 +86,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleMouseDown = () => {
-      setDragging(true);
+      setClicking(true);
     };
 
     handle.addEventListener("pointerdown", handleMouseDown);
@@ -109,7 +104,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       window.removeEventListener("pointerup", handleMouseUp);
       window.removeEventListener("touchend", handleMouseUp);
     };
-  }, [dragging, py, api]);
+  }, [dragging, py, api, clicking]);
 
   useEffect(() => {
     if (open) {
