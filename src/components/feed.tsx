@@ -79,11 +79,13 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
             <Card className="w-full max-w-sm overflow-hidden">
               <CardHeader className="border-b border-border p-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                  <div className="flex w-2/3 items-center gap-4 overflow-hidden">
                     <img src={message.userImage} className="aspect-square h-10 rounded-full" />
-                    <span>{message.userName}</span>
+                    <span className="overflow-hidden text-ellipsis whitespace-nowrap">{message.userName}</span>
                   </div>
-                  <span>{dayjs(message.timestamp.toDate()).fromNow()}</span>
+                  <span className="text-right text-sm text-foreground/50">
+                    {dayjs(message.timestamp.toDate()).fromNow()}
+                  </span>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
