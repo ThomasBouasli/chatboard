@@ -61,10 +61,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
     };
 
-    const handleMouseUp = (e: PointerEvent | TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
+    const handleMouseUp = () => {
       if (!dragging) {
         setOpen((prev) => !prev);
         return;
