@@ -33,6 +33,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
       if (!dragging) return;
 
+      setDragging(false);
+
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
       if (y < 0) {
@@ -50,6 +52,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
       if (!dragging) return;
 
+      setDragging(false);
+
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
       if (y < 0) {
@@ -62,7 +66,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleMouseUp = () => {
-      if (!dragging) {
+      if (dragging) {
         setOpen((prev) => !prev);
         return;
       }
