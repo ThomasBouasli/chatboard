@@ -14,8 +14,10 @@ const AppHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>
       )}
     >
       <div className="mx-auto flex w-full max-w-sm items-center justify-between">
-        <h1 className="text-gradient select-none text-2xl font-extrabold underline">Chatboard</h1>
-        <Button onClick={() => signOut(auth)}>Sign Out</Button>
+        <h1 className="text-gradient select-none text-3xl font-extrabold">Chatboard</h1>
+        <Button className="font-semibold" onClick={() => signOut(auth)}>
+          Sign Out
+        </Button>
       </div>
     </header>
   );

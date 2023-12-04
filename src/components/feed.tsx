@@ -79,7 +79,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
               <CardHeader className="border-b border-border p-3">
                 <div className="flex items-center justify-between">
                   <div className="flex w-2/3 items-center gap-4 overflow-hidden">
-                    <img src={message.userImage} className="aspect-square h-10" />
+                    <img src={message.userImage} className="aspect-square h-10 border-2 border-secondary" />
                     <span className="overflow-hidden text-ellipsis whitespace-nowrap">{message.userName}</span>
                   </div>
                   <span className="text-right text-sm text-foreground/50">
