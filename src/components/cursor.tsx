@@ -1,4 +1,4 @@
-import Dot from "./Dot";
+import Dot from "./dot";
 
 import { useEffect, useRef, useState } from "react";
 

@@ -3,10 +3,11 @@ import ReactDOM from "react-dom/client";
 
 import "@/styles/index.css";
 
-import { messaging } from "./lib/firebase";
-
 import { onMessage } from "firebase/messaging";
 
+import { messaging } from "@/lib/firebase";
+import { AnimateProvider } from "@/providers/AnimateProvider";
+import { DataProvider } from "@/providers/DataProvider";
 import Router from "@/router";
 
 onMessage(messaging, (payload) => {
@@ -17,6 +18,10 @@ onMessage(messaging, (payload) => {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Router />
+    <DataProvider>
+      <AnimateProvider>
+        <Router />
+      </AnimateProvider>
+    </DataProvider>
   </React.StrictMode>,
 );

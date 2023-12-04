@@ -1,8 +1,8 @@
 import * as admin from "firebase-admin";
+import * as functions from "firebase-functions";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { onCall } from "firebase-functions/v2/https";
 import { setGlobalOptions } from "firebase-functions/v2/options";
-import { z } from "zod";
 
 admin.initializeApp();
 
@@ -14,14 +14,8 @@ setGlobalOptions({
 const db = admin.firestore();
 const messaging = admin.messaging();
 
-const onMessageCreatedSchema = z.object({
-  message: z.string(),
-});
-
-export const onMessageCreated = onDocumentCreated("messages/{messageId}", async (event) => {
-  const { message } = onMessageCreatedSchema.parse(event.data?.data());
-
-  const users = await db.collection("users").get();
+export const onMessageCreated = onDocumentCreated("messages/{messageId}", async () => {
+  const users = await db.collection("tokens").get();
 
   const tokens: string[] = users.docs.map((doc) => doc.id);
 
@@ -30,7 +24,6 @@ export const onMessageCreated = onDocumentCreated("messages/{messageId}", async 
       token,
       notification: {
         title: "New message",
-        body: message,
       },
     });
   }
@@ -39,5 +32,15 @@ export const onMessageCreated = onDocumentCreated("messages/{messageId}", async 
 export const registerDevice = onCall(async (req) => {
   const { token } = req.data;
 
-  await db.collection("users").doc(token).set({ active: true });
+  await db.collection("tokens").doc(token).set({ active: true });
+});
+
+export const onUserSignUp = functions.auth.user().onCreate(async (data) => {
+  await db
+    .collection("users")
+    .doc(data.uid)
+    .set({
+      username: data?.displayName ?? "Anonymous",
+      image: data.photoURL ?? "https://picsum.photos/200",
+    });
 });

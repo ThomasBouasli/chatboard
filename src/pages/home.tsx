@@ -1,7 +1,7 @@
 import { signInWithPopup } from "firebase/auth";
 
-import Button from "@/components/Button";
-import Cursor from "@/components/Cursor";
+import Cursor from "@/components/cursor";
+import { Button } from "@/components/ui/button";
 import { auth, google } from "@/lib/firebase";
 
 const HomePage = () => {

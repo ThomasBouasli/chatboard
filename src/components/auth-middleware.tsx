@@ -1,4 +1,4 @@
-import Dot from "./Dot";
+import Dot from "./dot";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";

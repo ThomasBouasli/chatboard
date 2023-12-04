@@ -1,9 +1,9 @@
-import AuthMiddleware from "./components/AuthMiddleware";
+import AuthMiddleware from "./components/auth-middleware";
 
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
-import AppPage from "@/pages/App";
-import HomePage from "@/pages/Home";
+import AppPage from "@/pages/app";
+import HomePage from "@/pages/home";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
