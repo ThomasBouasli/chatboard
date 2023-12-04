@@ -10,14 +10,8 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  const notificationTitle = payload.title;
-  const notificationOptions = {
-    body: "Bora um lolzinho vai",
-    icon: "/logo.png",
-    image: "/logo.png",
-    requireInteraction: true,
-  };
+messaging.onBackgroundMessage(() => {
+  const notificationTitle = "A drawing was posted!";
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle);
 });
