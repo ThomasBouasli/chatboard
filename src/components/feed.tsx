@@ -71,7 +71,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
   }, []);
 
   return (
-    <main {...props} className={twMerge("mb-5", className)}>
+    <main {...props} className={twMerge("mb-10", className)}>
       <div className="flex flex-col">
         {data.map((message) => (
           <div key={message.id} className="flex h-fit w-full items-center justify-center border-secondary px-4 py-2">

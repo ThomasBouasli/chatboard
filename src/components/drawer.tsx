@@ -110,7 +110,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     <animated.section
       {...props}
       id="drawer"
-      className={twMerge("fixed bottom-5 left-1/2  w-full max-w-sm translate-y-full bg-background", className)}
+      className={twMerge("fixed bottom-10 left-1/2  w-full max-w-sm translate-y-full bg-background", className)}
       ref={drawerRef}
       style={{
         y: py.to((v) => `calc(100% - ${v}px)`),
@@ -118,7 +118,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }}
     >
       <div
-        className="flex h-5 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/10 py-1"
+        className="flex h-10 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/10 py-1"
         ref={handleRef}
         onClick={(e) => {
           e.stopPropagation();
