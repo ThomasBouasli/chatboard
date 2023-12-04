@@ -114,14 +114,14 @@ const Drawer = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivE
         y: py.to((v) => `calc(100% - ${v}px)`),
         x: "-50%",
       }}
-      onClick={(e) => {
-        e.stopPropagation();
-        setOpen((prev) => !prev);
-      }}
     >
       <div
         className="flex h-5 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/30 py-1"
         ref={handleRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
       >
         <GripHorizontal className="text-text" />
       </div>
