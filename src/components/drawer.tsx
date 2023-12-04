@@ -67,9 +67,11 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     };
 
     const handleMouseUp = (e: PointerEvent | TouchEvent) => {
+      if (!clicking) return;
+
       e.preventDefault();
       e.stopPropagation();
-      if (dragging) {
+      if (!dragging) {
         setOpen((prev) => !prev);
         setDragging(false);
         setClicking(false);
@@ -95,9 +97,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       setClicking(false);
     };
 
-    const handleMouseDown = (e: PointerEvent | TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+    const handleMouseDown = () => {
       setClicking(true);
     };
 
