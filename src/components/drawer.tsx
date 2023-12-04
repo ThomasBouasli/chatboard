@@ -129,6 +129,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
         className="flex h-10 w-full cursor-move items-center justify-center bg-foreground/10 py-1"
         ref={handleRef}
         onClick={(e) => {
+          e.preventDefault();
           e.stopPropagation();
           setOpen((prev) => !prev);
         }}
