@@ -118,7 +118,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }}
     >
       <div
-        className="flex h-10 w-full cursor-move items-center justify-center rounded-t-lg bg-foreground/10 py-1"
+        className="flex h-10 w-full cursor-move items-center justify-center bg-foreground/10 py-1"
         ref={handleRef}
         onClick={(e) => {
           e.stopPropagation();

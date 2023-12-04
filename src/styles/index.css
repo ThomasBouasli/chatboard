@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -71,6 +73,7 @@
     @apply border-border;
   }
   body {
+    font-family: "Pixelify Sans", sans-serif;
     @apply dark bg-background text-foreground;
   }
 }
