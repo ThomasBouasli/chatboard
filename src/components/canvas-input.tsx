@@ -37,8 +37,12 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
 
   const handleMouseDown = useCallback(
     (e: PointerEvent) => {
+      const canvas = canvasRef.current;
+
+      if (!canvas) return;
+
       const tool = new Pen();
-      tool.onMouseDown(e);
+      tool.onMouseDown(e, canvas.clientWidth);
 
       setData((prev) => {
         if (!prev) return [tool];
@@ -50,14 +54,17 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
 
   const handleMouseMove = useCallback(
     (e: PointerEvent) => {
+      const canvas = canvasRef.current;
+
       if (e.buttons !== 1) return;
       if (!data) return;
+      if (!canvas) return;
 
       const tool = data[data.length - 1];
 
       if (!tool) return;
 
-      tool.onMouseMove(e);
+      tool.onMouseMove(e, canvas.clientWidth);
 
       setData((prev) => {
         if (!prev) return prev;
@@ -156,7 +163,7 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const d of data) {
-      d.render(ctx);
+      d.render(ctx, canvas.width);
     }
   }, [data, canvasRef]);
 

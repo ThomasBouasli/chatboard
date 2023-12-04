@@ -15,29 +15,29 @@ export class Pen {
     this.data = data;
   }
 
-  onMouseDown(event: PointerEvent): void {
+  onMouseDown(event: PointerEvent, width: number): void {
     const canvas = event.target as HTMLCanvasElement;
     canvas.setPointerCapture(event.pointerId);
 
     this.data = {
-      x: event.offsetX,
-      y: event.offsetY,
+      x: event.offsetX / width,
+      y: event.offsetY / width,
       width: 0,
       height: 0,
-      points: [[event.offsetX, event.offsetY, event.pressure]],
+      points: [[event.offsetX / width, event.offsetY / width, event.pressure]],
     };
   }
 
-  onMouseMove(event: PointerEvent): void {
+  onMouseMove(event: PointerEvent, width: number): void {
     if (!this.data) return;
 
     this.data.width = Math.max(this.data.width, event.offsetX - this.data.x);
     this.data.height = Math.max(this.data.height, event.offsetY - this.data.y);
 
-    this.data.points.push([event.offsetX, event.offsetY, event.pressure]);
+    this.data.points.push([event.offsetX / width, event.offsetY / width, event.pressure]);
   }
 
-  render(ctx: CanvasRenderingContext2D, seed?: number | null): void {
+  render(ctx: CanvasRenderingContext2D, width: number, seed?: number | null): void {
     if (!this.data) return;
 
     const { points } = this.data;
@@ -46,12 +46,12 @@ export class Pen {
       points.map((data) => {
         if (seed) {
           return [
-            data[0] + Math.cos(seed * 0.1 * data[0]) * 1.2,
-            data[1] + Math.sin(seed * 0.1 * data[1]) * 1.2,
+            data[0] * width + Math.cos(seed * 0.1 * data[0] * width) * 1,
+            data[1] * width + Math.sin(seed * 0.1 * data[1] * width) * 1,
             data[2],
           ];
         } else {
-          return [data[0], data[1], data[2]];
+          return [data[0] * width, data[1] * width, data[2]];
         }
       }),
       {

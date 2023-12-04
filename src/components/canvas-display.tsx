@@ -61,7 +61,7 @@ const CanvasDisplay = ({ data, ...props }: CanvasDisplayProps & { data: Pen[] })
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (const d of data) {
-      d.render(ctx, seed);
+      d.render(ctx, canvas.width, seed);
     }
   }, [data, canvasRef, seed]);
 
