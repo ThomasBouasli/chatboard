@@ -33,7 +33,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       e.stopPropagation();
 
       if (!clicking) return;
-      setDragging(true);
 
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
@@ -44,6 +43,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       } else {
         api.start({ y });
       }
+
+      setDragging(true);
     };
 
     const handleTouchDrag = (e: TouchEvent) => {
@@ -51,7 +52,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       e.stopPropagation();
 
       if (!clicking) return;
-      setDragging(true);
 
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
@@ -62,19 +62,19 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       } else {
         api.start({ y });
       }
+
+      setDragging(true);
     };
 
     const handleMouseUp = (e: PointerEvent | TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
       if (dragging) {
-        console.log("but click");
         setOpen((prev) => !prev);
+        setDragging(false);
+        setClicking(false);
         return;
       }
-
-      setDragging(false);
-      setClicking(false);
 
       if (py.get() > maxY / 2) {
         setOpen((prev) => {
@@ -91,6 +91,8 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
           return false;
         });
       }
+
+      setClicking(false);
     };
 
     const handleMouseDown = (e: PointerEvent | TouchEvent) => {
