@@ -2,7 +2,7 @@ import CanvasInput from "./canvas-input";
 
 import { animated, useSpring } from "@react-spring/web";
 import { GripHorizontal } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
@@ -22,17 +22,20 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     },
   }));
 
-  useEffect(() => {
-    const handle = handleRef.current!;
-    const drawer = drawerRef.current!;
+  const handleDrag = useCallback(
+    (e: PointerEvent) => {
+      const handle = handleRef.current!;
+      const drawer = drawerRef.current!;
 
-    const maxY = drawer.clientHeight - handle.clientHeight;
+      const maxY = drawer.clientHeight - handle.clientHeight;
 
-    const handleDrag = (e: PointerEvent) => {
-      e.preventDefault();
       e.stopPropagation();
 
-      if (!clicking) return;
+      if (!clicking) {
+        setDragging(false);
+        setClicking(false);
+        return;
+      }
 
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
@@ -45,13 +48,24 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
 
       setDragging(true);
-    };
+    },
+    [clicking, api],
+  );
 
-    const handleTouchDrag = (e: TouchEvent) => {
-      e.preventDefault();
+  const handleTouchDrag = useCallback(
+    (e: TouchEvent) => {
+      const handle = handleRef.current!;
+      const drawer = drawerRef.current!;
+
+      const maxY = drawer.clientHeight - handle.clientHeight;
+
       e.stopPropagation();
 
-      if (!clicking) return;
+      if (!clicking) {
+        setDragging(false);
+        setClicking(false);
+        return;
+      }
 
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
@@ -64,12 +78,23 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
 
       setDragging(true);
-    };
+    },
+    [clicking, api],
+  );
 
-    const handleMouseUp = (e: PointerEvent | TouchEvent) => {
-      if (!clicking) return;
+  const handleMouseUp = useCallback(
+    (e: PointerEvent | TouchEvent) => {
+      const handle = handleRef.current!;
+      const drawer = drawerRef.current!;
 
-      e.preventDefault();
+      const maxY = drawer.clientHeight - handle.clientHeight;
+
+      if (!clicking) {
+        setDragging(false);
+        setClicking(false);
+        return;
+      }
+
       e.stopPropagation();
       if (!dragging) {
         setOpen((prev) => !prev);
@@ -95,11 +120,16 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       }
 
       setClicking(false);
-    };
+    },
+    [dragging, py, api, clicking],
+  );
 
-    const handleMouseDown = () => {
-      setClicking(true);
-    };
+  const handleMouseDown = useCallback(() => {
+    setClicking(true);
+  }, []);
+
+  useEffect(() => {
+    const handle = handleRef.current!;
 
     handle.addEventListener("pointerdown", handleMouseDown);
     handle.addEventListener("touchstart", handleMouseDown);
@@ -116,7 +146,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       window.removeEventListener("pointerup", handleMouseUp);
       window.removeEventListener("touchend", handleMouseUp);
     };
-  }, [dragging, py, api, clicking]);
+  }, [handleRef, handleMouseDown, handleDrag, handleTouchDrag, handleMouseUp]);
 
   useEffect(() => {
     if (open) {
