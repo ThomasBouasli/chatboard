@@ -85,7 +85,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const handleMouseUp = useCallback(
     (e: PointerEvent | TouchEvent) => {
-      e.stopPropagation();
       e.preventDefault();
 
       const handle = handleRef.current!;
@@ -106,8 +105,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
         setClicking(false);
         return;
       }
-
-      console.log(py.get() > maxY / 10, py.get() < maxY / 10);
 
       if (py.get() > maxY / 10) {
         setOpen((prev) => {
