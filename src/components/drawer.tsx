@@ -85,8 +85,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const handleMouseUp = useCallback(
     (e: PointerEvent | TouchEvent) => {
-      e.preventDefault();
-
       const handle = handleRef.current!;
       const drawer = drawerRef.current!;
 
