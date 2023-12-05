@@ -25,6 +25,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
   const handleDrag = useCallback(
     (e: PointerEvent) => {
       e.stopPropagation();
+      e.preventDefault();
 
       const handle = handleRef.current!;
       const drawer = drawerRef.current!;
@@ -113,6 +114,20 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
           }
           return true;
         });
+      } else if (py.get() < maxY / 10) {
+        setOpen((prev) => {
+          if (!prev) {
+            api.start({ y: 0 });
+          }
+          return false;
+        });
+      } else if (py.get() > maxY / 10) {
+        setOpen((prev) => {
+          if (prev) {
+            api.start({ y: maxY });
+          }
+          return true;
+        });
       } else {
         setOpen((prev) => {
           if (!prev) {
@@ -127,7 +142,10 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     [dragging, py, api, clicking],
   );
 
-  const handleMouseDown = useCallback(() => {
+  const handleMouseDown = useCallback((e: PointerEvent | TouchEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
     setClicking(true);
   }, []);
 
