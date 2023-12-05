@@ -107,21 +107,23 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
         return;
       }
 
-      if (py.get() > maxY / 2) {
-        setOpen((prev) => {
-          if (prev) {
-            api.start({ y: maxY });
-          }
-          return true;
-        });
-      } else if (py.get() > maxY / 10) {
+      console.log(py.get() > maxY / 10, py.get() < maxY / 10);
+
+      if (py.get() > maxY / 10) {
         setOpen((prev) => {
           if (!prev) {
-            api.start({ y: 0 });
+            api.start({ y: maxY });
           }
           return false;
         });
       } else if (py.get() < maxY / 10) {
+        setOpen((prev) => {
+          if (prev) {
+            api.start({ y: 0 });
+          }
+          return true;
+        });
+      } else if (py.get() > maxY / 2) {
         setOpen((prev) => {
           if (prev) {
             api.start({ y: maxY });
