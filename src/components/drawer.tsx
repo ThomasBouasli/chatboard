@@ -24,12 +24,12 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const handleDrag = useCallback(
     (e: PointerEvent) => {
+      e.stopPropagation();
+
       const handle = handleRef.current!;
       const drawer = drawerRef.current!;
 
       const maxY = drawer.clientHeight - handle.clientHeight;
-
-      e.stopPropagation();
 
       if (!clicking) {
         setDragging(false);
@@ -54,12 +54,12 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const handleTouchDrag = useCallback(
     (e: TouchEvent) => {
+      e.stopPropagation();
+
       const handle = handleRef.current!;
       const drawer = drawerRef.current!;
 
       const maxY = drawer.clientHeight - handle.clientHeight;
-
-      e.stopPropagation();
 
       if (!clicking) {
         setDragging(false);
@@ -84,6 +84,9 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
 
   const handleMouseUp = useCallback(
     (e: PointerEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+
       const handle = handleRef.current!;
       const drawer = drawerRef.current!;
 
@@ -124,7 +127,10 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     [dragging, py, api, clicking],
   );
 
-  const handleMouseDown = useCallback(() => {
+  const handleMouseDown = useCallback((e: PointerEvent | TouchEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
     setClicking(true);
   }, []);
 
