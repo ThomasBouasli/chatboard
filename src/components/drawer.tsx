@@ -128,9 +128,6 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
   );
 
   const handleMouseDown = useCallback((e: PointerEvent | TouchEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-
     setClicking(true);
   }, []);
 
