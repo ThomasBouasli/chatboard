@@ -41,11 +41,11 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       const y = window.innerHeight - e.clientY - handle.clientHeight / 2;
 
       if (y < 0) {
-        api.start({ y: 0 });
+        api.set({ y: 0 });
       } else if (y > maxY) {
-        api.start({ y: maxY });
+        api.set({ y: maxY });
       } else {
-        api.start({ y });
+        api.set({ y });
       }
 
       setDragging(true);
@@ -71,11 +71,11 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
       const y = window.innerHeight - e.touches[0].clientY - handle.clientHeight / 2;
 
       if (y < 0) {
-        api.start({ y: 0 });
+        api.set({ y: 0 });
       } else if (y > maxY) {
-        api.start({ y: maxY });
+        api.set({ y: maxY });
       } else {
-        api.start({ y });
+        api.set({ y });
       }
 
       setDragging(true);
@@ -185,7 +185,10 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
         x: "-50%",
       }}
     >
-      <div className="flex h-10 w-full cursor-move items-center justify-center bg-foreground/10 py-1" ref={handleRef}>
+      <div
+        className="flex h-10 w-full cursor-pointer items-center justify-center bg-foreground/10 py-1"
+        ref={handleRef}
+      >
         <GripHorizontal className="text-text" />
       </div>
       <div className="border-x-8 border-b-8 border-foreground/10 p-4">
