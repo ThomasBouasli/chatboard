@@ -1,28 +1,32 @@
+import { Button } from "./ui/button";
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { collection, doc, getDoc, onSnapshot, orderBy, query, Timestamp } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, Timestamp } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
+import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import CanvasDisplay from "@/components/canvas-display";
 import { Pen, PenData } from "@/components/tools/pen";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { db, functions, messaging } from "@/lib/firebase";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { auth, db, functions, messaging } from "@/lib/firebase";
 
 dayjs.extend(relativeTime);
 
+type Data = {
+  id: string;
+  data: PenData[];
+  userId: string;
+  userName: string;
+  userImage: string;
+  timestamp: Timestamp;
+};
+
 const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const [data, setData] = useState<
-    {
-      id: string;
-      data: PenData[];
-      userName: string;
-      userImage: string;
-      timestamp: Timestamp;
-    }[]
-  >([]);
+  const [data, setData] = useState<Data[]>([]);
 
   const signUpForNotifications = async (token: string) => {
     const registerDevice = httpsCallable(functions, "registerDevice");
@@ -42,6 +46,7 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
         return {
           id: docRef.id,
           data: JSON.parse(docRef.data().data),
+          userId: docRef.data().userId,
           userName: user?.username ?? "Unknown",
           userImage: user?.image ?? "https://via.placeholder.com/150",
           timestamp: docRef.data().createdAt,
@@ -52,6 +57,10 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
 
       setData(messages);
     });
+  };
+
+  const deleteMessage = async (id: string) => {
+    await deleteDoc(doc(db, "messages", id));
   };
 
   useEffect(() => {
@@ -90,6 +99,13 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
               <CardContent className="p-0">
                 <CanvasDisplay key={message.id} data={message.data.map((d) => new Pen(d))} />
               </CardContent>
+              {message.userId === auth.currentUser?.uid && (
+                <CardFooter className="flex justify-end border-t border-border p-3">
+                  <Button className="aspect-square p-2" variant="destructive" onClick={() => deleteMessage(message.id)}>
+                    <Trash2 size={14} />
+                  </Button>
+                </CardFooter>
+              )}
             </Card>
           </div>
         ))}

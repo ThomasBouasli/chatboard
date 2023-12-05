@@ -8,12 +8,9 @@ service cloud.firestore {
         allow read: if request.auth.uid != null;
       }
 
-      match /messages {
-        allow read: if request.auth.uid != null;
-      }
-
       match /messages/{messageId} {
-        allow write, read: if request.auth.uid != null;
+        allow create, read: if request.auth.uid != null;
+        allow delete: if request.auth.uid == resource.data.userId;
       }
       
     }
