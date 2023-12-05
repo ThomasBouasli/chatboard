@@ -127,7 +127,7 @@ const Drawer = ({ children: _, className, ...props }: React.HTMLAttributes<HTMLD
     [dragging, py, api, clicking],
   );
 
-  const handleMouseDown = useCallback((e: PointerEvent | TouchEvent) => {
+  const handleMouseDown = useCallback(() => {
     setClicking(true);
   }, []);
 
