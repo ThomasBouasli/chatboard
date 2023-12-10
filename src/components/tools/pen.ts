@@ -55,7 +55,7 @@ export class Pen {
         }
       }),
       {
-        size: 4,
+        size: width / 120,
         thinning: 0.6,
         smoothing: 0,
         streamline: 0.5, // suavizador
