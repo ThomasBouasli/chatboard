@@ -7,7 +7,6 @@ import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
 
 import CanvasDisplay from "@/components/canvas-display";
 import { Pen, PenData } from "@/components/tools/pen";
