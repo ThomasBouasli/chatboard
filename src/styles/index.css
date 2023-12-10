@@ -57,6 +57,23 @@
     font-family: "Pixelify Sans", sans-serif;
     @apply dark bg-background text-foreground;
   }
+
+  /* scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-950;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-zinc-700;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-600;
+  }
 }
 
 .firebase-emulator-warning {
