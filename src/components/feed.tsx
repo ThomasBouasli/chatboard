@@ -80,8 +80,8 @@ const Feed = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => 
   }, []);
 
   return (
-    <main {...props} className={twMerge("mb-10", className)}>
-      <div className="flex flex-col">
+    <main {...props} className={className}>
+      <div className="flex w-full flex-col">
         {data.map((message) => (
           <div key={message.id} className="flex h-fit w-full items-center justify-center border-secondary px-4 py-2">
             <Card className="w-full max-w-sm overflow-hidden">

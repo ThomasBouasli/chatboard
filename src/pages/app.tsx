@@ -14,7 +14,7 @@ const AppPage = () => {
     <div className="relative flex h-[100dvh] flex-col overflow-hidden" ref={drawer.containerRef}>
       <Drawer.Provider {...drawer}>
         <AppHeader className="h-16" />
-        <Feed className="min-h-[100dvh] overflow-auto" />
+        <Feed className="mb-10 flex w-full grow flex-col items-center overflow-auto" />
         <Drawer.Root className="absolute bottom-0 left-0 w-full bg-background">
           <Drawer.Handle className="absolute bottom-full flex h-10 w-full cursor-pointer items-center justify-center bg-accent py-1">
             <GripHorizontal />
