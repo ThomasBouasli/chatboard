@@ -44,6 +44,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-headless-drawer:
+    specifier: ^0.2.0
+    version: 0.2.0(react-dom@18.2.0)(react@18.2.0)
   react-hook-form:
     specifier: ^7.48.2
     version: 7.48.2(react@18.2.0)
@@ -2818,6 +2821,17 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-headless-drawer@0.2.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-+HZGfi4oZiO5v6MzuCEDHQzvU6jzkCVi45/8tMJWaXEDtUbqw0Xds1QuMTm4F34AfnHGUIFZF4Eprniq6q9LCQ==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      '@react-spring/web': 9.7.3(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-hook-form@7.48.2(react@18.2.0):

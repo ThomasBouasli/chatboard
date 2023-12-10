@@ -1,13 +1,16 @@
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { Trash2, Undo } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDrawerProvider } from "react-headless-drawer";
 
 import Canvas from "@/components/canvas";
 import { Pen } from "@/components/tools/pen";
 import { Button } from "@/components/ui/button";
 import { auth, db } from "@/lib/firebase";
 
-const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
+const CanvasInput = () => {
+  const { close } = useDrawerProvider();
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tempCanvas = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,7 +32,7 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
     });
 
     clear();
-    onSubmit();
+    close();
   };
 
   const undo = useCallback(() => {
@@ -181,8 +184,8 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
   }, [data, canvasRef]);
 
   return (
-    <div className="flex flex-col gap-4" ref={containerRef}>
-      <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col items-center gap-4" ref={containerRef}>
+      <div className="flex w-full max-w-lg items-center justify-between gap-2">
         <span className="text-foreground/50">draw something</span>
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={clear}>
@@ -193,9 +196,9 @@ const CanvasInput = ({ onSubmit }: { onSubmit: () => void }) => {
           </Button>
         </div>
       </div>
-      <Canvas className="cursor-crosshair touch-none border border-secondary" ref={canvasRef} />
-      <Canvas className="border border-secondary" style={{ display: "none" }} ref={tempCanvas} />
-      <Button className="font-bold" onClick={saveCanvas}>
+      <Canvas className="max-w-lg cursor-crosshair touch-none border border-secondary" ref={canvasRef} />
+      <Canvas className="max-w-lg border border-secondary" style={{ display: "none" }} ref={tempCanvas} />
+      <Button className="w-full max-w-lg font-bold" onClick={saveCanvas}>
         Save
       </Button>
     </div>
